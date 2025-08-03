@@ -1,8 +1,8 @@
 .PHONY: help setup-cursor-rules update-cursor-rules clean-cursor-rules
 
 SUBMODULE_DIR = cursor-rules-common
-CURSOR_RULES_DIR = .cursor/rules
-SUBMODULE_RULES_DIR = $(SUBMODULE_DIR)/.cursor/rules
+CURSOR_RULES_DIR = .cursor
+SUBMODULE_RULES_DIR = $(SUBMODULE_DIR)/.cursor
 
 help: ## Show this help message
 	@echo "Available commands:"
