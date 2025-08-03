@@ -1,0 +1,3 @@
+[submodule "scripts/cursor-rules-common"]
+	path = scripts/cursor-rules-common
+	url = https://github.com/shogo452/cursor-rules-common.git
