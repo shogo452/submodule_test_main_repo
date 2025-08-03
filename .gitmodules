@@ -1,6 +1,0 @@
-[submodule "submodule"]
-	path = submodule
-	url = https://github.com/shogo452/submodule_test_submodule_repo.git
-[submodule ".claude"]
-	path = .claude
-	url = https://github.com/shogo452/submodule_test_submodule_repo.git
