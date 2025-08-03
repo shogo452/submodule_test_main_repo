@@ -1,0 +1,25 @@
+## 概要
+Cursor Rules のセットアップを改善し、プロジェクトルートに `.cursor` ディレクトリを追加しました。サブモジュールを使用した効率的なルール管理システムを構築しています。
+
+## 詳細
+- **`.cursor/rules/`**: プロジェクトルートにCursorルールディレクトリを追加
+  - `base.md`: 基本ルールファイル
+  - `create_pull_request.mdc`: PR作成手順ルール
+  - `pull_request_template.mdc`: PRテンプレート
+- **`.gitmodules`**: cursor-rules-commonサブモジュールの設定を追加
+- **`cursor-rules-common`**: 共通ルールリポジトリをサブモジュールとして追加
+- **`Makefile`**: ルール管理用のMakefileを大幅に改善
+  - より効率的なルールコピー機能
+  - バージョン管理機能の追加
+  - ステータス確認機能の改善
+
+この更新により、プロジェクト間でのCursorルール管理がより効率的になり、バージョン管理も可能になります。
+
+## 画面キャプチャ
+<!-- Golden Testで生成された画面キャプチャが自動的に追加されます -->
+<!-- 画面の変更がある場合は、変更前後の画面キャプチャが表示されます -->
+
+## 参考
+- cursor-rules-commonリポジトリ: https://github.com/shogo452/cursor-rules-common
+- 利用可能なコマンド: `make help`
+- ルール更新: `make update-cursor-rules`
