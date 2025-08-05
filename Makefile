@@ -15,30 +15,44 @@ setup-cursor-rules: ## Initial setup of cursor rules from submodule
 		git submodule add <CURSOR_RULES_REPO_URL> $(SUBMODULE_DIR); \
 	fi
 	@git submodule update --init --recursive
-	@$(MAKE) copy-cursor-rules
+	@$(MAKE) create-cursor-symlink
 	@echo "Cursor rules setup completed"
 
 update-cursor-rules: ## Update cursor rules from latest submodule
 	@echo "Updating cursor rules..."
 	@git submodule update --remote $(SUBMODULE_DIR)
-	@$(MAKE) copy-cursor-rules
+	@$(MAKE) create-cursor-symlink
 	@echo "Cursor rules updated"
 
-copy-cursor-rules: ## Copy rules from submodule to .cursor/rules
-	@echo "Copying cursor rules..."
-	@mkdir -p $(CURSOR_RULES_DIR)
+create-cursor-symlink: ## Create symbolic link from .cursor to submodule .cursor directory
+	@echo "Creating cursor rules symbolic link..."
+	@if [ -L "$(CURSOR_RULES_DIR)" ]; then \
+		echo "Removing existing symbolic link..."; \
+		rm $(CURSOR_RULES_DIR); \
+	fi
+	@if [ -d "$(CURSOR_RULES_DIR)" ]; then \
+		echo "Removing existing .cursor directory..."; \
+		rm -rf $(CURSOR_RULES_DIR); \
+	fi
 	@if [ -d "$(SUBMODULE_RULES_DIR)" ]; then \
-		cp -r $(SUBMODULE_RULES_DIR)/* $(CURSOR_RULES_DIR)/; \
-		echo "Rules copied successfully"; \
+		ln -sf $(SUBMODULE_RULES_DIR) $(CURSOR_RULES_DIR); \
+		echo "Symbolic link created successfully"; \
 	else \
 		echo "Error: Submodule rules directory not found"; \
 		exit 1; \
 	fi
 
-clean-cursor-rules: ## Remove copied cursor rules (keeps submodule)
+clean-cursor-rules: ## Remove cursor rules symbolic link (keeps submodule)
 	@echo "Cleaning cursor rules..."
-	@rm -rf $(CURSOR_RULES_DIR)
-	@echo "Cursor rules cleaned"
+	@if [ -L "$(CURSOR_RULES_DIR)" ]; then \
+		rm $(CURSOR_RULES_DIR); \
+		echo "Symbolic link removed"; \
+	elif [ -d "$(CURSOR_RULES_DIR)" ]; then \
+		rm -rf $(CURSOR_RULES_DIR); \
+		echo "Cursor rules directory removed"; \
+	else \
+		echo "No cursor rules to clean"; \
+	fi
 
 update-submodule-version: ## Update submodule to specific version
 	@echo "Available versions:"
@@ -49,10 +63,20 @@ update-submodule-version: ## Update submodule to specific version
 	cd .. && \
 	git add $(SUBMODULE_DIR) && \
 	git commit -m "Update cursor-rules to $$version" && \
-	$(MAKE) copy-cursor-rules
+	$(MAKE) create-cursor-symlink
 
 status: ## Show current submodule status
 	@echo "Submodule status:"
 	@git submodule status
-	@echo "\nCurrent rules files:"
-	@find $(CURSOR_RULES_DIR) -name "*.md" -type f 2>/dev/null | sort || echo "No rules files found"
+	@echo "\nCurrent .cursor link status:"
+	@if [ -L "$(CURSOR_RULES_DIR)" ]; then \
+		echo "Symbolic link exists:"; \
+		ls -la $(CURSOR_RULES_DIR); \
+		echo "Linked to:"; \
+		readlink $(CURSOR_RULES_DIR); \
+	elif [ -d "$(CURSOR_RULES_DIR)" ]; then \
+		echo "Directory exists (not a symbolic link):"; \
+		ls -la $(CURSOR_RULES_DIR); \
+	else \
+		echo "No .cursor directory or symbolic link found"; \
+	fi

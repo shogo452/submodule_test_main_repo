@@ -1,0 +1,23 @@
+## 概要
+MCP（Model Context Protocol）サーバーの設定を追加し、Cursorの機能を拡張しました。AWSドキュメントとTerraformのMCPサーバーを設定して、より効率的な開発環境を提供します。
+
+## 詳細
+- **`.cursor/mcp.json`**: MCPサーバーの設定ファイルを追加
+  - `awslabs.aws-documentation-mcp-server`: AWSドキュメントへのアクセス
+  - `awslabs.terraform-mcp-server`: Terraformリソースへのアクセス
+- **`Makefile`**: Cursorルールディレクトリのパスを修正
+  - `.cursor/rules` → `.cursor` に変更
+  - より包括的なルール管理に対応
+- **`cursor-rules-common`**: サブモジュールを最新版に更新
+
+この更新により、CursorでAWSドキュメントやTerraformリソースに直接アクセスできるようになり、開発効率が大幅に向上します。
+
+## 画面キャプチャ
+<!-- Golden Testで生成された画面キャプチャが自動的に追加されます -->
+<!-- 画面の変更がある場合は、変更前後の画面キャプチャが表示されます -->
+
+## 参考
+- MCPサーバー設定: `.cursor/mcp.json`
+- AWSドキュメントMCPサーバー: `awslabs.aws-documentation-mcp-server`
+- Terraform MCPサーバー: `awslabs.terraform-mcp-server`
+- 利用可能なコマンド: `make help`
